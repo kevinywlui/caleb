@@ -43,7 +43,9 @@ def parse_aux(filename):
         citations = set()
         for line in f:
             if line.startswith("\\citation{"):
-                citations.add(line[10:-2])
+                citation = line[10:-2]
+                if citation.count(':'):
+                    citations.add(citation)
     return citations
 
 

@@ -1,3 +1,8 @@
+# Custom
+#
+*.bib
+#
+# The following is taken from some "official" Github repo
 # Tex gitignores
 ## Core latex/pdflatex auxiliary files:
 *.aux

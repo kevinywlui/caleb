@@ -2,6 +2,7 @@
 
 import requests
 import sys
+import logging
 
 
 def parse_string(s):
@@ -16,14 +17,7 @@ def get_bibtex(s):
     r = requests.get('https://mathscinet.ams.org/mrlookup', params=payload)
     output = r.text
 
-    # determine number of results
-    n = output.count('pre>')
-    if n == 0:
-        return ''
-    elif n == 2:
-        return output.split('<pre>')[1].split('</pre>')[0].strip('\n')
-    else:
-        return ''
+    return output.split('<pre>')[1].split('</pre>')[0].strip('\n')
 
 
 def parse_bib(filename):
@@ -52,7 +46,11 @@ def parse_aux(filename):
 def append_missing(missing_cits, bib_file):
     with open(bib_file, "a") as f:
         for m in missing_cits:
+            logging.info("Working on {}".format(m))
+
             new_entry = get_bibtex(m)
+
+            logging.info("Inputing {}".format(new_entry))
             if not new_entry:
                 continue
             # replace citation identifier with m
@@ -67,12 +65,21 @@ def append_missing(missing_cits, bib_file):
 
 def main():
     name = sys.argv[1]
+    logging.basicConfig(level=logging.INFO)
+
     aux_file = name + ".aux"
+    logging.info(".aux file: {}".format(aux_file))
+
     bib_file = name + ".bib"
+    logging.info(".bib file: {}".format(bib_file))
+
     citations = parse_aux(aux_file)
     existing_bibs = parse_bib(bib_file)
 
     missing_cits = citations.difference(existing_bibs)
+    logging.info("Number of missing citations: {}".format(len(missing_cits)))
+    logging.info("Missing citations: {}".format(missing_cits))
+
     if missing_cits:
         append_missing(missing_cits, bib_file)
 

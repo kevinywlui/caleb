@@ -45,21 +45,25 @@ def parse_aux(filename):
 
 def append_missing(missing_cits, bib_file):
     with open(bib_file, "a") as f:
-        for m in missing_cits:
-            logging.info("Working on {}".format(m))
+        for citation in missing_cits:
+            logging.info("Working on {}".format(citation))
 
-            new_entry = get_bibtex(m)
+            new_entry = get_bibtex(citation)
 
             logging.info("Inputing {}".format(new_entry))
             if not new_entry:
                 continue
-            # replace citation identifier with m
+
+            # Here we assume the first line is always
+            # @something {OLD_CITATION,\n
+            # Replace OLD_CITATION with citation
+            # Use { and ,\n to find and replace
             a, b = new_entry.split('{', 1)
-            formatted = a + '{' + m + ',' + b.split(',', 1)[1]
+            new_citation = a + '{' + citation + ',\n' + b.split(',\n', 1)[1]
 
             # write to bib file
             f.write('\n')
-            f.write(formatted)
+            f.write(new_citation)
             f.write('\n')
 
 

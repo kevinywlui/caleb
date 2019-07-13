@@ -17,7 +17,9 @@ def get_bibtex(s):
     r = requests.get('https://mathscinet.ams.org/mrlookup', params=payload)
     output = r.text
 
-    return output.split('<pre>')[1].split('</pre>')[0].strip('\n')
+    num_results = output.count('<pre>')
+
+    return num_results, output.split('<pre>')[1].split('</pre>')[0].strip('\n')
 
 
 def parse_bib(filename):
@@ -48,11 +50,18 @@ def append_missing(missing_cits, bib_file):
         for citation in missing_cits:
             logging.info("Working on {}".format(citation))
 
-            new_entry = get_bibtex(citation)
+            num, new_entry = get_bibtex(citation)
+            logging.info("Found {} results".format(num))
+
+            # No results
+            if not num:
+                print('No results found for: {}'.format(citation))
+                return
+            # Multiple results
+            elif num > 1:
+                print('Multiple results found for: {}'.format(citation))
 
             logging.info("Inputing {}".format(new_entry))
-            if not new_entry:
-                continue
 
             # Here we assume the first line is always
             # @something {OLD_CITATION,\n

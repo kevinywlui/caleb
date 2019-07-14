@@ -93,20 +93,19 @@ def append_missing(missing_cits, bib_file):
     """
     with open(bib_file, "a") as f:
         for citation in missing_cits:
-            logging.info("Working on {}".format(citation))
+            logging.debug("Working on {}".format(citation))
 
             num, new_entry = get_bibtex(citation)
-            logging.info("Found {} results".format(num))
+            logging.debug("Found {} results".format(num))
 
             # No results
             if not num:
-                print("No results found for: {}".format(citation))
+                logging.warning("No results found for: {}".format(citation))
                 return
             # Multiple results
             elif num > 1:
-                print("Multiple results found for: {}".format(citation))
+                logging.warning("Multiple results found for: {}".format(citation))
 
-            logging.info("input_nameing {}".format(new_entry))
 
             # Here we assume the first line is always
             # @something {OLD_CITATION,\n
@@ -114,6 +113,8 @@ def append_missing(missing_cits, bib_file):
             # Use { and ,\n to find and replace
             a, b = new_entry.split("{", 1)
             new_citation = a + "{" + citation + ",\n" + b.split(",\n", 1)[1]
+
+            logging.debug("Appending {}".format(new_citation))
 
             # write to bib file
             f.write("\n")
@@ -146,17 +147,17 @@ def main():
     input_name = args.input_name
 
     aux_file = input_name + ".aux"
-    logging.info(".aux file: {}".format(aux_file))
+    logging.debug(".aux file: {}".format(aux_file))
 
     bib_file = input_name + ".bib"
-    logging.info(".bib file: {}".format(bib_file))
+    logging.debug(".bib file: {}".format(bib_file))
 
     citations = parse_aux(aux_file)
     existing_bibs = parse_bib(bib_file)
 
     missing_cits = citations.difference(existing_bibs)
-    logging.info("Number of missing citations: {}".format(len(missing_cits)))
-    logging.info("Missing citations: {}".format(missing_cits))
+    logging.debug("Number of missing citations: {}".format(len(missing_cits)))
+    logging.debug("Missing citations: {}".format(missing_cits))
 
     if missing_cits:
         append_missing(missing_cits, bib_file)

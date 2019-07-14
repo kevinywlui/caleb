@@ -1,3 +1,0 @@
-latexmk -pdf test.tex &> /dev/null
-./caleb test
-latexmk -pdf test.tex &> /dev/null

@@ -100,12 +100,11 @@ def append_missing(missing_cits, bib_file):
 
             # No results
             if not num:
-                logging.warning("No results found for: {}".format(citation))
+                logging.warning("No results: {}".format(citation))
                 return
             # Multiple results
             elif num > 1:
-                logging.warning("Multiple results found for: {}".format(citation))
-
+                logging.warning("Multiple results: {}".format(citation))
 
             # Here we assume the first line is always
             # @something {OLD_CITATION,\n
@@ -137,12 +136,18 @@ def main():
         help="Take first result if multiple results",
         action="store_true",
     )
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        help="No output to stdout, overrides all other arguments",
+        action="store_true",
+    )
     args = parser.parse_args()
 
-    if args.show_warnings:
+    if args.quiet:
+        logging.disable()
+    elif args.show_warnings:
         logging.basicConfig(level=logging.WARNING)
-    else:
-        logging.basicConfig(level=logging.INFO)
 
     input_name = args.input_name
 

@@ -1,35 +1,35 @@
 #! /usr/bin/env python
 
 import requests
-import sys
 import logging
+import argparse
 
 
 def parse_string(s):
-    """Return the payload from user-input string
+    """Return the payload from user-input_name string
 
     Args:
-        s (str): user-input string
+        s (str): user-input_name string
 
     Returns:
         dict: A dictionary of author, title, year that will be used for the GET
         request.
     """
     # underscore -> space
-    s = s.replace('_', ' ')
+    s = s.replace("_", " ")
 
     # Separate entries by colon
-    pieces = s.split(':')
-    payload = dict(zip(['au', 'ti', 'year'], pieces))
-    payload['format'] = 'bibtex'
+    pieces = s.split(":")
+    payload = dict(zip(["au", "ti", "year"], pieces))
+    payload["format"] = "bibtex"
     return payload
 
 
 def get_bibtex(s):
-    """Return the first bibtex entry given the user-input string
+    """Return the first bibtex entry given the user-input_name string
 
     Args:
-        s (str): user-input string
+        s (str): user-input_name string
 
     Returns:
         (int, str): A tuple where the first entry is the number of results and
@@ -37,12 +37,12 @@ def get_bibtex(s):
         second entry will be an empty string.
     """
     payload = parse_string(s)
-    r = requests.get('https://mathscinet.ams.org/mrlookup', params=payload)
+    r = requests.get("https://mathscinet.ams.org/mrlookup", params=payload)
     output = r.text
 
-    num_results = output.count('<pre>')
+    num_results = output.count("<pre>")
 
-    return num_results, output.split('<pre>')[1].split('</pre>')[0].strip('\n')
+    return num_results, output.split("<pre>")[1].split("</pre>")[0].strip("\n")
 
 
 def parse_bib(filename):
@@ -56,10 +56,10 @@ def parse_bib(filename):
     """
     all_entries = set()
     try:
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             for line in f:
                 if line.startswith("@"):
-                    all_entries.add(line.split('{', 1)[1].split(',', 1)[0])
+                    all_entries.add(line.split("{", 1)[1].split(",", 1)[0])
     except FileNotFoundError:
         pass
     return all_entries
@@ -79,7 +79,7 @@ def parse_aux(filename):
         for line in f:
             if line.startswith("\\citation{"):
                 citation = line[10:-2]
-                if citation.count(':'):
+                if citation.count(":"):
                     citations.add(citation)
     return citations
 
@@ -100,35 +100,55 @@ def append_missing(missing_cits, bib_file):
 
             # No results
             if not num:
-                print('No results found for: {}'.format(citation))
+                print("No results found for: {}".format(citation))
                 return
             # Multiple results
             elif num > 1:
-                print('Multiple results found for: {}'.format(citation))
+                print("Multiple results found for: {}".format(citation))
 
-            logging.info("Inputing {}".format(new_entry))
+            logging.info("input_nameing {}".format(new_entry))
 
             # Here we assume the first line is always
             # @something {OLD_CITATION,\n
             # Replace OLD_CITATION with citation
             # Use { and ,\n to find and replace
-            a, b = new_entry.split('{', 1)
-            new_citation = a + '{' + citation + ',\n' + b.split(',\n', 1)[1]
+            a, b = new_entry.split("{", 1)
+            new_citation = a + "{" + citation + ",\n" + b.split(",\n", 1)[1]
 
             # write to bib file
-            f.write('\n')
+            f.write("\n")
             f.write(new_citation)
-            f.write('\n')
+            f.write("\n")
 
 
 def main():
-    name = sys.argv[1]
-    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_name")
+    parser.add_argument(
+        "-w",
+        "--show_warnings",
+        help="Show warnings when there is not a unique result in a search",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-t",
+        "--take-first",
+        help="Take first result if multiple results",
+        action="store_true",
+    )
+    args = parser.parse_args()
 
-    aux_file = name + ".aux"
+    if args.show_warnings:
+        logging.basicConfig(level=logging.WARNING)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    input_name = args.input_name
+
+    aux_file = input_name + ".aux"
     logging.info(".aux file: {}".format(aux_file))
 
-    bib_file = name + ".bib"
+    bib_file = input_name + ".bib"
     logging.info(".bib file: {}".format(bib_file))
 
     citations = parse_aux(aux_file)

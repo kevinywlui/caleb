@@ -6,6 +6,19 @@ import logging
 
 
 def parse_string(s):
+    """Return the payload from user-input string
+
+    Args:
+        s (str): user-input string
+
+    Returns:
+        dict: A dictionary of author, title, year that will be used for the GET
+        request.
+    """
+    # underscore -> space
+    s = s.replace('_', ' ')
+
+    # Separate entries by colon
     pieces = s.split(':')
     payload = dict(zip(['au', 'ti', 'year'], pieces))
     payload['format'] = 'bibtex'
@@ -13,6 +26,16 @@ def parse_string(s):
 
 
 def get_bibtex(s):
+    """Return the first bibtex entry given the user-input string
+
+    Args:
+        s (str): user-input string
+
+    Returns:
+        (int, str): A tuple where the first entry is the number of results and
+        the single entry is the first bibtex entry. If no bibtex found, the
+        second entry will be an empty string. 
+    """
     payload = parse_string(s)
     r = requests.get('https://mathscinet.ams.org/mrlookup', params=payload)
     output = r.text
@@ -23,6 +46,14 @@ def get_bibtex(s):
 
 
 def parse_bib(filename):
+    """Return a list of bib entries that are already in the bib file.
+
+    Args:
+        filename (str): filename of bib file
+
+    Returns:
+        set: Set of bibtex entries already specified
+    """
     all_entries = set()
     try:
         with open(filename, 'r') as f:
@@ -35,6 +66,14 @@ def parse_bib(filename):
 
 
 def parse_aux(filename):
+    """Return a list of bib entries that are referenced in the tex file.
+
+    Args:
+        filename (str): filename of bib file
+
+    Returns:
+        set: Set of bibtex entries referenced in the tex file.
+    """
     with open(filename, "r") as f:
         citations = set()
         for line in f:
@@ -46,6 +85,12 @@ def parse_aux(filename):
 
 
 def append_missing(missing_cits, bib_file):
+    """Append the missing bibtex entries to the bibfile.
+
+    Args:
+        missing_cits (set): set of citations to be appended
+        bib_file (str): filename to bib file.
+    """
     with open(bib_file, "a") as f:
         for citation in missing_cits:
             logging.info("Working on {}".format(citation))

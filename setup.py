@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Caleb",
+    name="caleb",
     description="A tool automatically to fill in your Latex citations using AMS Lookup.",
     author="Kevin Lui",
     author_email="kevinywlui@gmail.com",

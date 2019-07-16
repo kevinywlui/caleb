@@ -1,9 +1,11 @@
 import argparse
 from .file_handler import AuxHandler, BibHandler
-from .amslookup import AMSMRLookup
+from .amsmrlookup import AMSMRLookup
 
 
 def launch():
+    """Parse the command line arguments. Fill in the bibtex entries.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("input_name")
     parser.add_argument(
@@ -33,9 +35,10 @@ def launch():
     bib_file = input_name + ".bib"
     bib_h = BibHandler(bib_file)
 
-    requested_citations = aux_h.citations()
-    existing_bibs = bib_h.citations()
-    missing_cits = requested_citations.difference(existing_bibs)
+    requested_citation_keys = aux_h.citation_keys()
+    existing_bibs = bib_h.citation_keys()
+    missing_cits = requested_citation_keys.difference(existing_bibs)
 
-    new_cits = AMSMRLookup(missing_cits)
-    bib_h.append_citations(new_cits)
+    for cit in missing_cits:
+        new_bib = AMSMRLookup(cit)
+        bib_h.append_a_citation(new_bib.bib_entry())

@@ -33,6 +33,19 @@ class AuxHandler(FileHandler):
                         citation_keys.add(citation)
         return citation_keys
 
+    def bibdata(self):
+        """Extract the location of user-specified .bib file from the .aux
+        file.
+
+        Returns:
+            str: location of the user-specified .bib file.
+        """
+        with open(self.filename, "r") as f:
+            for line in f:
+                if line.startswith("\\bibdata{"):
+                    bibdata = line[9:-2]
+                    return bibdata
+
 
 class BibHandler(FileHandler):
     """Class for handling .bib files.

@@ -1,4 +1,5 @@
 import argparse
+import logging
 from .file_handler import AuxHandler, BibHandler
 from .amsmrlookup import AMSMRLookup
 
@@ -26,13 +27,30 @@ def launch():
         help="No output to stdout, overrides all other arguments",
         action="store_true",
     )
+    parser.add_argument(
+        "-b",
+        "--bibfile",
+        help="Location of .bib file",
+        action="store",
+        default=''
+    )
     args = parser.parse_args()
     input_name = args.input_name
+    bib_name = args.bibfile
+
+    if args.quiet:
+        logging.disable()
+    elif args.show_warning:
+        logging.basicConfig(level=logging.WARNING)
 
     aux_file = input_name + ".aux"
     aux_h = AuxHandler(aux_file)
 
-    bib_file = input_name + ".bib"
+    if bib_name:
+        bib_file = bib_name + ".bib"
+    else:
+        bib_file = aux_h.bibdata() + ".bib"
+
     bib_h = BibHandler(bib_file)
 
     requested_citation_keys = aux_h.citation_keys()
@@ -41,4 +59,12 @@ def launch():
 
     for cit in missing_cits:
         new_bib = AMSMRLookup(cit)
-        bib_h.append_a_citation(new_bib.bib_entry())
+        bib_entry = new_bib.bib_entry()
+        num_results = new_bib.num_results()
+        if num_results == 0:
+            logging.warning("No results found for: {}".format(cit))
+        elif num_results > 1:
+            logging.warning("Multiple results found for: {}".format(cit))
+        if not args.take_first:
+            continue
+        bib_h.append_a_citation(bib_entry)

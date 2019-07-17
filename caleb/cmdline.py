@@ -11,7 +11,7 @@ def launch():
     parser.add_argument("input_name")
     parser.add_argument(
         "-w",
-        "--show_warnings",
+        "--show-warnings",
         help="Show warnings when there is not a unique result in a search",
         action="store_true",
     )
@@ -19,6 +19,11 @@ def launch():
         "-t",
         "--take-first",
         help="Take first result if multiple results",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
         action="store_true",
     )
     parser.add_argument(
@@ -40,8 +45,12 @@ def launch():
 
     if args.quiet:
         logging.disable()
-    elif args.show_warning:
+    elif args.verbose:
+        logging.basicConfig(level=logging.INFO)
+    elif args.show_warnings:
         logging.basicConfig(level=logging.WARNING)
+    else:
+        logging.basicConfig(level=logging.CRITICAL)
 
     aux_file = input_name + ".aux"
     aux_h = AuxHandler(aux_file)
@@ -50,6 +59,8 @@ def launch():
         bib_file = bib_name + ".bib"
     else:
         bib_file = aux_h.bibdata() + ".bib"
+    logging.info("aux file: {}".format(aux_file))
+    logging.info("bib file: {}".format(bib_file))
 
     bib_h = BibHandler(bib_file)
 
@@ -58,6 +69,7 @@ def launch():
     missing_cits = requested_citation_keys.difference(existing_bibs)
 
     for cit in missing_cits:
+        logging.info("Working on: {}".format(cit))
         new_bib = AMSMRLookup(cit)
         bib_entry = new_bib.bib_entry()
         num_results = new_bib.num_results()
@@ -65,6 +77,6 @@ def launch():
             logging.warning("No results found for: {}".format(cit))
         elif num_results > 1:
             logging.warning("Multiple results found for: {}".format(cit))
-        if not args.take_first:
-            continue
+            if not args.take_first:
+                continue
         bib_h.append_a_citation(bib_entry)

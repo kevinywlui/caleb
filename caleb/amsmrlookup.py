@@ -5,7 +5,7 @@ entries, this module will also normalize the names.
 import requests
 
 
-class AMSMRLookup():
+class AMSMRLookup:
     """Handles searches for AMS MR Lookup.
 
     Note:
@@ -15,6 +15,7 @@ class AMSMRLookup():
         key (str): A citation key assumed to be of the form author:title:year.
 
     """
+
     def __init__(self, key):
         self.key = key
 
@@ -36,8 +37,7 @@ class AMSMRLookup():
         except AttributeError:
             pass
 
-        r = requests.get("https://mathscinet.ams.org/mrlookup",
-                         params=self.payload)
+        r = requests.get("https://mathscinet.ams.org/mrlookup", params=self.payload)
         output = r.text
         self._num_results = output.count("<pre>")
 

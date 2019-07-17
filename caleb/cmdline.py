@@ -21,11 +21,7 @@ def launch():
         help="Take first result if multiple results",
         action="store_true",
     )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-    )
+    parser.add_argument("-v", "--verbose", action="store_true")
     parser.add_argument(
         "-q",
         "--quiet",
@@ -33,11 +29,7 @@ def launch():
         action="store_true",
     )
     parser.add_argument(
-        "-b",
-        "--bibfile",
-        help="Location of .bib file",
-        action="store",
-        default=''
+        "-b", "--bibfile", help="Location of .bib file", action="store", default=""
     )
     args = parser.parse_args()
     input_name = args.input_name

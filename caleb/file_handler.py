@@ -5,9 +5,10 @@ eventually have it handle other formats.
 """
 
 
-class FileHandler():
+class FileHandler:
     """Generic class for handling .aux and .bib files.
     """
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -18,6 +19,7 @@ class FileHandler():
 class AuxHandler(FileHandler):
     """Class for handling .aux files.
     """
+
     def citation_keys(self):
         """Extract citation keys from this .aux file.
 
@@ -50,6 +52,7 @@ class AuxHandler(FileHandler):
 class BibHandler(FileHandler):
     """Class for handling .bib files.
     """
+
     def citation_keys(self):
         """Extract citation keys from this .bib file.
 

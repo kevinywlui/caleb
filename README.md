@@ -41,6 +41,14 @@ $pdflatex='pdflatex %O %S; caleb %B'
 
 ## Installation
 
+### Dependency
+
+* `requests`
+
+* Install using `setup.py`
+```
+python setup.py install --user
+```
 
 ## Link
 

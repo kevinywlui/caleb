@@ -44,12 +44,24 @@ $pdflatex='pdflatex %O %S; caleb %B'
 ### Dependency
 
 * `requests`
+* `python3`
 
-* Install using `setup.py`
+### `setupy.py`
+
 ```
 python setup.py install --user
 ```
 
-## Link
+### `pip`
+
+```
+pip3 install caleb --user
+```
+
+## Goal of project
+
+* [ ] Reach feature parity with IRL [Caleb](https://sites.math.washington.edu/~geigerc/)
+
+## Homepage
 
 * https://github.com/kevinywlui/caleb

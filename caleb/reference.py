@@ -16,6 +16,7 @@ class Reference:
         key (str): A citation key assumed to be of the form author:title:year.
 
     """
+
     def __init__(self, key):
         self.key = key
 
@@ -24,8 +25,8 @@ class Reference:
 
         pieces = spaced_key.split(":")
         self.queries = dict(
-            zip(["query.author", "query.title", "query.bibliographic"],
-                pieces))
+            zip(["query.author", "query.title", "query.bibliographic"], pieces)
+        )
         self.queries["sort"] = "relevance"
 
     def _get_bibtex(self):
@@ -35,8 +36,7 @@ class Reference:
         Note:
             Results are cached.
         """
-        iter_pub = iterate_publications_as_json(max_results=2,
-                                                queries=self.queries)
+        iter_pub = iterate_publications_as_json(max_results=2, queries=self.queries)
         try:
             doi = next(iter_pub)["DOI"]
             self._exists = True

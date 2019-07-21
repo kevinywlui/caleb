@@ -13,7 +13,7 @@ class FileHandler:
         self.filename = filename
 
     def citation_keys(self):
-        return NotImplementedError("Derived class must override")
+        raise NotImplementedError("Derived class must override")
 
 
 class AuxHandler(FileHandler):

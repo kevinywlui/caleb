@@ -45,10 +45,11 @@ def main():
 
     aux_file = input_name + ".aux"
     aux_h = AuxHandler(aux_file)
+    bib_file_name = aux_h.bibdata() + ".bib"
 
     dirname = os.path.dirname(aux_file)
+    bib_file = os.path.join(dirname, bib_file_name)
 
-    bib_file = dirname + "/" + aux_h.bibdata() + ".bib"
     logging.info("aux file: {}".format(aux_file))
     logging.info("bib file: {}".format(bib_file))
 
@@ -63,6 +64,7 @@ def main():
         new_bib = Reference(cit)
         if not new_bib.exists():
             logging.warning("No results found for: {}".format(cit))
+            continue
         elif not new_bib.is_unique():
             logging.warning("Multiple results found for: {}".format(cit))
             if not args.take_first:

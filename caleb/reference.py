@@ -36,7 +36,7 @@ class Reference:
         Note:
             Results are cached.
         """
-        iter_pub = iterate_publications_as_json(max_results=2, queries=self.queries)
+        iter_pub = iterate_publications_as_json(queries=self.queries)
         try:
             doi = next(iter_pub)["DOI"]
             self._exists = True

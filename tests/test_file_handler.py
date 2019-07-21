@@ -32,11 +32,11 @@ def test_clean_tex():
 def test_dirty_tex():
     tex_file_path = 'tests/tex_files/'
     name = tex_file_path + 'test_dirty'
-    assert os.path.getsize('tests/tex_files/biblio_dirty.bib') == 0
     subprocess.run(["latexmk", "-pdf", "-cd", name])
     aux_h = AuxHandler(name + '.aux')
     assert aux_dirty_keys == aux_h.citation_keys()
-    bib_h = BibHandler(aux_h.bibdata())
+    bib_h = BibHandler(tex_file_path + aux_h.bibdata() + '.bib')
     assert bib_h.citation_keys() == bib_dirty_keys
+    bib_h.append_a_citation('test')
     subprocess.run(["git", "dirty", "-xf", tex_file_path])
     subprocess.run(["git", "checkout", tex_file_path])

@@ -3,9 +3,9 @@ aux_clean_keys = {
     'ribet:galois_real_multiplication'
 }
 
-aux_clean_keys = {
+aux_dirty_keys = {
     'mazur:eisenstein', 'mazur:modular:2000',
-    'ribet:galois_real_multiplication', 'fermat:marvelous'
+    'ribet:galois_real_multiplication', 'fermat:marvelous_proof'
 }
 
 bib_dirty_keys = {'mazur:eisenstein'}

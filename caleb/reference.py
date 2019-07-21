@@ -1,12 +1,13 @@
-"""This module is used for interfacing with
-https://mathscinet.ams.org/mrlookup. In addition to retrieving the bibtex
-entries, this module will also normalize the names.
+"""This module is used obtaining citations from references. We mainly use the
+crossref api but it'll be good to add more sources in the future.
 """
-import requests
+
+from crossref_commons.iteration import iterate_publications_as_json
+from crossref_commons.retrieval import get_publication_as_refstring
 
 
-class AMSMRLookup:
-    """Handles searches for AMS MR Lookup.
+class Reference:
+    """This class handles things you would want to do with a reference.
 
     Note:
         It is possible to initialize without the year.
@@ -15,7 +16,6 @@ class AMSMRLookup:
         key (str): A citation key assumed to be of the form author:title:year.
 
     """
-
     def __init__(self, key):
         self.key = key
 
@@ -23,48 +23,89 @@ class AMSMRLookup:
         spaced_key = key.replace("_", " ")
 
         pieces = spaced_key.split(":")
-        self.payload = dict(zip(["au", "ti", "year"], pieces))
-        self.payload["format"] = "bibtex"
+        self.queries = dict(
+            zip(["query.author", "query.title", "query.bibliographic"],
+                pieces))
+        self.queries["sort"] = "relevance"
 
-    def bib_entry(self):
-        """Fetch the bibtex entry from amsmrlookup.
-
-        Returns:
-            str: A string ready to append to the bibtex file.
-        """
-        try:
-            return self._bibtex
-        except AttributeError:
-            pass
-
-        r = requests.get("https://mathscinet.ams.org/mrlookup", params=self.payload)
-        output = r.text
-        self._num_results = output.count("<pre>")
-
-        # This is *almost* correct. We just have to fix the key.
-        bib_entry = output.split("<pre>")[1].split("</pre>")[0].strip("\n")
-
-        # Here we assume the first line is always
-        # @something {OLD_CITATION,\n
-        # Replace OLD_CITATION with citation
-        # Use { and ,\n to find and replace
-        a, b = bib_entry.split("{", 1)
-        self._bib_entry = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
-
-        return self._bib_entry
-
-    def num_results(self):
-        """Return the number of results returned from the search.
+    def _get_bibtex(self):
+        """Internal function to fetch the bibtex entry and determine existence
+        and uniqueness.
 
         Note:
-            This method will run `bib_entry` if it has not been ran already.
+            Results are cached.
+        """
+        iter_pub = iterate_publications_as_json(max_results=2,
+                                                queries=self.queries)
+        try:
+            doi = next(iter_pub)["DOI"]
+            self._exists = True
+        except StopIteration:
+            self._exists = False
+            return
+        try:
+            next(iter_pub)
+            self._is_unique = False
+        except StopIteration:
+            self._is_unique = True
+
+        # This is almost correct! We just need to change the citation key to
+        # self.key
+        raw_bibtex = get_publication_as_refstring(doi, "bibtex")
+
+        # Here we assume the first line is always
+        # @something {OLD_CITATION,
+        # Replace OLD_CITATION with citation
+        # Use { and , to find and replace
+        a, b = raw_bibtex.split("{", 1)
+        self._bibtex = a + "{" + self.key + "," + b.split(",", 1)[1]
+
+        # Remove leading whitespace if necessary
+        if self._bibtex[0] == " ":
+            self._bibtex = self._bibtex[1:]
+        return
+
+    def bibtex(self):
+        """Return the first bibtex entry found given the citation.
+
+        Note:
+            This calls _get_bibtex if it has not been ran already.
+
         Returns:
-            int: the number of results.
+            str: bibtex entry
+        """
+        if not self.exists():
+            return None
+        return self._bibtex
+
+    def exists(self):
+        """Return whether a citation for this reference exists.
+
+        Note:
+            This calls _get_bibtex if it has not been ran already.
+
+        Returns:
+            bool: True if citations exists and False otherwise.
         """
         try:
-            return self._num_results
+            return self._exists
         except AttributeError:
-            pass
-        # call bibtex to get number of results
-        self.bibtex()
-        return self._num_results
+            self._get_bibtex()
+        return self._exists
+
+    def is_unique(self):
+        """Return whether a citation for this reference is unique.
+
+        Note:
+            This calls _get_bibtex if it has not been ran already.
+
+        Returns:
+            bool: True if citations is unique and False otherwise.
+        """
+        if not self.exists():
+            return ValueError("Determining uniqueness requires existence.")
+        try:
+            return self._is_unique
+        except AttributeError:
+            self._get_bibtex
+        return self._is_unique

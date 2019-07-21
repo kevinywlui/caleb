@@ -1,7 +1,7 @@
 import argparse
 import logging
 from .file_handler import AuxHandler, BibHandler
-from .amsmrlookup import AMSMRLookup
+from .reference import Reference
 
 
 def launch():
@@ -28,12 +28,8 @@ def launch():
         help="No output to stdout, overrides all other arguments",
         action="store_true",
     )
-    parser.add_argument(
-        "-b", "--bibfile", help="Location of .bib file", action="store", default=""
-    )
     args = parser.parse_args()
     input_name = args.input_name
-    bib_name = args.bibfile
 
     if args.quiet:
         logging.disable()
@@ -47,10 +43,7 @@ def launch():
     aux_file = input_name + ".aux"
     aux_h = AuxHandler(aux_file)
 
-    if bib_name:
-        bib_file = bib_name + ".bib"
-    else:
-        bib_file = aux_h.bibdata() + ".bib"
+    bib_file = aux_h.bibdata() + ".bib"
     logging.info("aux file: {}".format(aux_file))
     logging.info("bib file: {}".format(bib_file))
 
@@ -62,13 +55,13 @@ def launch():
 
     for cit in missing_cits:
         logging.info("Working on: {}".format(cit))
-        new_bib = AMSMRLookup(cit)
-        bib_entry = new_bib.bib_entry()
-        num_results = new_bib.num_results()
-        if num_results == 0:
+        new_bib = Reference(cit)
+        if not new_bib.exists():
             logging.warning("No results found for: {}".format(cit))
-        elif num_results > 1:
+        elif not new_bib.is_unique():
             logging.warning("Multiple results found for: {}".format(cit))
             if not args.take_first:
                 continue
-        bib_h.append_a_citation(bib_entry)
+        bibtex = new_bib.bibtex()
+        logging.info("Appending: \n{}".format(bibtex))
+        bib_h.append_a_citation(bibtex)

@@ -26,3 +26,4 @@ def test_clean_tex():
     bib_h = BibHandler(aux_h.bibdata())
     assert bib_h.citation_keys() == set()
     subprocess.run(["git", "clean", "-xf", tex_file_path])
+    subprocess.run(["git", "checkout", tex_file_path])

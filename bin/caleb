@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+import os
 from caleb.file_handler import AuxHandler, BibHandler
 from caleb.reference import Reference
 
@@ -45,7 +46,9 @@ def main():
     aux_file = input_name + ".aux"
     aux_h = AuxHandler(aux_file)
 
-    bib_file = aux_h.bibdata() + ".bib"
+    dirname = os.path.dirname(aux_file)
+
+    bib_file = dirname + "/" + aux_h.bibdata() + ".bib"
     logging.info("aux file: {}".format(aux_file))
     logging.info("bib file: {}".format(bib_file))
 

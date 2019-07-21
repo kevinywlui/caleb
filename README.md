@@ -1,12 +1,19 @@
 # caleb
 
-**caleb** is a tool to automatically fill in your Latex citations using https://mathscinet.ams.org/mrlookup.
+**caleb** is a tool to automatically fill in your Latex citations.
 
-## Usage
+## Usage examples
 
-Here we will show off some ways to run `caleb`. All of these examples will
-happen in the `test` directory. The goal is always to give `caleb` an `aux` to
-parse.
+* The best way is probably to integrate into `latexmk`.
+```
+latexmk -pdf -pdflatex='pdflatex %O %S; caleb %B'
+```
+
+* We can also set a `.latexmkrc`. This file will either go into the project
+  directory or the home directory. In the `.latexmkrc` write:
+```
+$pdflatex='pdflatex %O %S; caleb %B'
+``` 
 
 * The barebone approach is to run
 ```
@@ -28,25 +35,15 @@ pdflatex test
 pdflatex test
 ```
 
-* We can also integrate into `latexmk`:
-```
-latexmk -pdf -pdflatex='pdflatex %O %S; caleb %B'
-```
-
-* We can also set a `.latexmkrc`. This file will either go into the project
-  directory or the home directory. In the `.latexmkrc` write:
-```
-$pdflatex='pdflatex %O %S; caleb %B'
-``` 
 
 ## Installation
 
 ### Dependency
 
-* `requests`
+* [crossref_commons_py](https://gitlab.com/crossref/crossref_commons_py)
 * `python3`
 
-### `setupy.py`
+### `setup.py`
 
 ```
 python setup.py install --user

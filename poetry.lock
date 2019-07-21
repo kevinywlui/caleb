@@ -65,7 +65,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4"
 version = "1.25.3"
 
 [metadata]
-content-hash = "d2a434c5d755f6c0f6de54f22ed719217137e8a69632decc795972c1d3267046"
+content-hash = "dd2014f1036629cd31292a98c231f5834184a4ec58f02b7809630c15c69dabf9"
 python-versions = "^3.7"
 
 [metadata.hashes]

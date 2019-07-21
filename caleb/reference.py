@@ -97,15 +97,13 @@ class Reference:
         """Return whether a citation for this reference is unique.
 
         Note:
-            This calls _get_bibtex if it has not been ran already.
+            Since self.exists() calls self._get_bibtex(), we don't need to make
+            sure to call self._get_bibtex()
 
         Returns:
             bool: True if citations is unique and False otherwise.
         """
         if not self.exists():
-            return ValueError("Determining uniqueness requires existence.")
-        try:
-            return self._is_unique
-        except AttributeError:
-            self._get_bibtex
+            raise ValueError("Determining uniqueness requires existence.")
+
         return self._is_unique

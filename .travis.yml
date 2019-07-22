@@ -8,6 +8,7 @@ python:
 
 install:
     - pip install poetry
+    - pip install python-coveralls
 
 script:
     - make tests

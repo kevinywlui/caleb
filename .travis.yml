@@ -5,7 +5,11 @@ python:
     - "nightly"
 
 before_install:
-    - sudo apt-get install texlive latexmk
+    - sudo apt-get install texlive
+    # Ubuntu's latexmk is still bugged. Need to get latest version for tests
+    - wget http://mirrors.ctan.org/support/latexmk.zip
+    - unzip latexmk.zip
+    - alias latexmk='$(pwd)/latexmk/latexmk.pl'
 
 install:
     - pip install poetry

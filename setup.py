@@ -11,7 +11,7 @@ setuptools.setup(
     author="Kevin Lui",
     author_email="kevinywlui@gmail.com",
     scripts=["bin/caleb"],
-    version="0.4.0",
+    version="0.4.1",
     url="https://github.com/kevinywlui/caleb",
     packages=setuptools.find_packages(),
     classifiers=[

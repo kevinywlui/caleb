@@ -9,7 +9,7 @@ before_install:
     # Ubuntu's latexmk is still bugged. Need to get latest version for tests
     - wget http://mirrors.ctan.org/support/latexmk.zip
     - unzip latexmk.zip
-    - alias latexmk='$(pwd)/latexmk/latexmk.pl'
+    - export PATH=$(pwd)/latexmk/latexmk.pl:$PATH
 
 install:
     - pip install poetry

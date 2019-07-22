@@ -21,4 +21,4 @@ script:
     - make lint
 
 after_success:
-  - coveralls --verbose
+  - coveralls

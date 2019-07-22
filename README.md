@@ -1,5 +1,7 @@
 # caleb
 
+[![Coverage Status](https://coveralls.io/repos/github/kevinywlui/caleb/badge.svg)](https://coveralls.io/github/kevinywlui/caleb)
+
 **caleb** is a tool to automatically fill in your Latex citations.
 
 ## Usage examples

@@ -24,7 +24,10 @@ def main():
         help="Take first result if multiple results",
         action="store_true",
     )
-    parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("-v",
+                        "--verbose",
+                        help="Increase verbosity of output",
+                        action="store_true")
     parser.add_argument(
         "-q",
         "--quiet",

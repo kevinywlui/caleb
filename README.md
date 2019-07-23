@@ -8,44 +8,53 @@
 
 ## Usage examples
 
-* The best way is probably to integrate into `latexmk`.
+See the `examples` directory along with the `an_example.tex` file. The
+following examples occur in the `examples` directory.
+
+* The best way is probably to integrate into `latexmk`. The `-pdflatex` flag
+  allows us to run `caleb` after each `pdflatex` call.
 ```
-latexmk -pdf -pdflatex='pdflatex %O %S; caleb %B'
+latexmk -pdf -pdflatex='pdflatex %O %S; caleb %B' an_example
 ```
 
-* We can also set a `.latexmkrc`. This file will either go into the project
-  directory or the home directory. In the `.latexmkrc` write:
+* We can set the `-pdflatex` flag in a `.latexmkrc` file. This can either go in
+  the your tex project folder or in the home directory. So in the `.latexmkrc`
+  file, include the following line (see examples directory for an example):
 ```
 $pdflatex='pdflatex %O %S; caleb %B'
 ``` 
 
-* The barebone approach is to run
+* The barebone approach is to run `caleb` before running bibtex.
 ```
-pdflatex test
-caleb test
-bibtex test
-pdflatex test
-pdflatex test
+pdflatex an_example
+caleb an_example
+bibtex an_example
+pdflatex an_example
+pdflatex an_example
 ```
 
-* In the previous example, we were missing the citations that yielded multiple
-  entries. If we want to just take the first one, we can pass the
-  `--take-first` flag.
+* By default, `caleb` will ignore any citation where crossref.org returns
+  multiple results. To take the first result ordered by relevance, pass the
+  `--take-first` flag. For example,
 ```
-pdflatex test
-caleb --take-first test
-bibtex test
-pdflatex test
-pdflatex test
+caleb --take-first an_example
 ```
+
 
 
 ## Installation
 
-### Dependency
+### Dependencies
 
 * [crossref_commons_py](https://gitlab.com/crossref/crossref_commons_py)
 * `python3`
+
+### Testing and Development Dependencies
+
+* [python-coveralls](https://github.com/z4r/python-coveralls)
+* [pytest](https://pytest.org/en/latest/) 
+* [pytest-cov](https://github.com/pytest-dev/pytest-cov)
+* [flake8](http://flake8.pycqa.org/en/latest/)
 
 ### `setup.py`
 

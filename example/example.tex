@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\begin{document}
+
+Here are a few citations:
+\begin{itemize}
+    \item
+        This citation has a unique reference \cite{mazur:eisenstein}.
+    \item
+        Same citation as before but now with a proposition cited \cite[Prop.
+        14.2]{mazur:eisenstein}.
+    \item
+        This citation is not unique \cite{mazur:modular}. \verb+caleb+ won't
+        append anything thing unless pass the \verb+--take-first+ flag. This
+        just takes the first result sorted by relevance by crossref.org which
+        might not be what you want.
+    \item
+        We can narrow the search by specifying the year
+        \cite{mazur:modular:2000}.
+    \item
+        Underscores are converted to spaces.
+        \cite{ribet:galois_real_multiplication}
+\end{itemize}
+    
+\bibliographystyle{amsalpha}
+\bibliography{biblio}
+\end{document}

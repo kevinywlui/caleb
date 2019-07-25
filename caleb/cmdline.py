@@ -13,15 +13,10 @@ def make_parser():
         help="Take first result if multiple results",
         action="store_true",
     )
-    parser.add_argument("-v",
-                        "--verbose",
-                        help="Increase verbosity of output",
-                        action="store_true")
     parser.add_argument(
-        "--version",
-        help="Outputs the version",
-        action="store_true",
+        "-v", "--verbose", help="Increase verbosity of output", action="store_true"
     )
+    parser.add_argument("--version", help="Outputs the version", action="store_true")
     return parser
 
 

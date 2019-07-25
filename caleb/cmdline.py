@@ -32,5 +32,5 @@ def launch():
         print("Need input name")
         sys.exit(1)
 
-    app = Application(args.input, args.verbose_level)
+    app = Application(args.input_name, args.verbose)
     app.go(take_first=args.take_first)

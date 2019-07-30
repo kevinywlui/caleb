@@ -1,7 +1,7 @@
 # caleb
 
 [![PyPI version](https://badge.fury.io/py/caleb.svg)](https://badge.fury.io/py/caleb)
-[![Coverage Status](https://coveralls.io/repos/github/kevinywlui/caleb/badge.svg)](https://coveralls.io/github/kevinywlui/caleb)
+[![Coverage Status](https://coveralls.io/repos/github/kevinywlui/caleb/badge.svg?branch=master)](https://coveralls.io/github/kevinywlui/caleb?branch=master)
 [![Build Status](https://travis-ci.org/kevinywlui/caleb.svg?branch=master)](https://travis-ci.org/kevinywlui/caleb)
 
 **caleb** is a tool to automatically fill in your Latex citations.

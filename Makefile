@@ -5,4 +5,4 @@ tests:
 	poetry run pytest --cov=caleb tests
 
 lint:
-	black --check .
+	black --ignore "setup.py" --check . 

@@ -1,10 +1,7 @@
-import pytest
-from shutil import copyfile
+import subprocess
+from caleb.__version__ import __version__
 
 
-# Here we test
-def test_clean_tex(tmp_path):
-    """Test a tex file with an empty bib without the --take-first flag.
-    """
-    # Copy over files to tmp_path
-    copyfile(
+def test_version_request():
+    version = subprocess.check_output(["poetry", "run", "caleb", "--version"])
+    assert version.decode("utf-8")[:-1] == __version__

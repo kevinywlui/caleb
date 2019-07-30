@@ -12,9 +12,6 @@ class FileHandler:
     def __init__(self, filename):
         self.filename = filename
 
-    def citation_keys(self):
-        raise NotImplementedError("Derived class must override")
-
 
 class AuxHandler(FileHandler):
     """Class for handling .aux files.

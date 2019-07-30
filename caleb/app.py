@@ -16,9 +16,9 @@ class Application:
         # Normalize name by removing .tex and .aux, if necessary.
         filename, file_extension = os.path.splitext(input_name)
         if file_extension in [".tex", ".aux"]:
-            self.input_name = filename
+            input_name = filename
         else:
-            self.input_name = input_name
+            input_name = input_name
 
         # Set filenames
         aux_file = input_name + ".aux"

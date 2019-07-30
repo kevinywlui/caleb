@@ -8,5 +8,7 @@ def test_version_request():
 
 
 def test_missing_argument():
-    error = subprocess.check_output(["poetry", "run", "caleb"])
-    assert error.decode("utf-8")[:-1] == "Need input name"
+    try:
+        subprocess.check_output(["poetry", "run", "caleb"])
+    except subprocess.CalledProcessError as e:
+        assert e.output.decode("utf-8")[:-1] == "Need input name"

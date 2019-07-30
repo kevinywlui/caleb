@@ -4,7 +4,7 @@ from shutil import copy
 from pathlib import Path
 
 tex_dir = Path("tests/tex_files")
-control_bib = tex_dir / "control_bibs" / "test_control.bib"
+control_bib_dir = tex_dir / "control_bibs"
 
 
 def cmp_files(f1, f2):
@@ -28,6 +28,8 @@ def test_clean_take_all(tmp_path):
     app.go(take_first=True)
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
 
+    control_bib = control_bib_dir / "take_all.bib"
+
     # Compare with control
     assert cmp_files(test_bib, control_bib)
 
@@ -46,6 +48,8 @@ def test_dirty_not_take_all(tmp_path):
     app = Application(str(test_file), verbose_level=0)
     app.go(take_first=False)
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
+
+    control_bib = control_bib_dir / "not_take_all.bib"
 
     # Compare with control
     assert cmp_files(test_bib, control_bib)

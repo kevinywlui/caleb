@@ -5,4 +5,4 @@ tests:
 	poetry run pytest --cov=caleb tests
 
 lint:
-	black --ignore "setup.py" --check . 
+	black --exclude ".*setup\.py|\.eggs" --check .

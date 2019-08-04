@@ -6,14 +6,7 @@ from .reference import Reference
 
 
 class Application:
-    def __init__(self, input_name, verbose_level):
-        if verbose_level == 0:
-            logging.disable(logging.CRITICAL)
-        elif verbose_level == 1:
-            logging.basicConfig(level=logging.WARNING)
-        elif verbose_level == 2:
-            logging.basicConfig(level=logging.WARNING)
-
+    def __init__(self, input_name):
         # Normalize name by removing .tex and .aux, if necessary.
         filename, file_extension = os.path.splitext(input_name)
         if file_extension in [".tex", ".aux"]:
@@ -32,7 +25,9 @@ class Application:
         self.aux_file = aux_file
         self.bib_file = bib_file
 
-    def go(self, take_first=False):
+    def go(self, take_first=False, method="crossref"):
+
+        logging.info(f"Using {method} for citations")
 
         aux_h = AuxHandler(self.aux_file)
         bib_h = BibHandler(self.bib_file)
@@ -43,7 +38,7 @@ class Application:
 
         for cit in missing_cits:
             logging.info("Working on: {}".format(cit))
-            new_bib = Reference(cit)
+            new_bib = Reference(cit, method=method)
             if not new_bib.exists():
                 logging.warning("No results found for: {}".format(cit))
                 continue

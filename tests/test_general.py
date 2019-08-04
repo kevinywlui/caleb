@@ -1,7 +1,8 @@
+from pathlib import Path
+from shutil import copy
+
 from caleb.app import Application
 from caleb.file_handler import AuxHandler
-from shutil import copy
-from pathlib import Path
 
 tex_dir = Path("tests/tex_files")
 control_bib_dir = tex_dir / "control_bibs"
@@ -24,7 +25,7 @@ def test_clean_take_all(tmp_path):
     test_file = copy(test_file, tmp_path)
 
     # Run caleb
-    app = Application(str(test_file), verbose_level=0)
+    app = Application(str(test_file))
     app.go(take_first=True)
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
 
@@ -45,7 +46,7 @@ def test_dirty_not_take_all(tmp_path):
     copy(partial_file, tmp_path)
 
     # Run caleb
-    app = Application(str(test_file), verbose_level=0)
+    app = Application(str(test_file))
     app.go(take_first=False)
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
 

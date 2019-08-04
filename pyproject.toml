@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "caleb"
-version = "0.5.0"
+version = "0.6.0"
 description = "A tool to automatically retrieve bibtex entries"
 authors = ["kevin lui <kevinywlui@gmail.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-    
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -23,7 +23,8 @@ crossref-commons = "^0.0.5"
 python-coveralls = "^2.9"
 pytest-cov = "^2.7"
 pytest = "^5.0"
-black = {version = "^19.3b0", allows-prereleases = true}
+black = {version = "^18.3-alpha.0", allows-prereleases = true}
+poetry-setup = "^0.3.6"
 [tool.poetry.scripts]
 caleb = 'caleb.cmdline:launch'
 

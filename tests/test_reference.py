@@ -2,7 +2,9 @@
 """
 
 import pytest
+
 from caleb.reference import Reference
+
 from .consts import mazur_eisenstein_citation
 
 

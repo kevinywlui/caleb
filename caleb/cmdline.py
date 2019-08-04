@@ -1,7 +1,8 @@
 import argparse
 import sys
-from .app import Application
+
 from .__version__ import __version__
+from .app import Application
 
 
 def make_parser():

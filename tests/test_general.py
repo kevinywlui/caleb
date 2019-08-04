@@ -1,7 +1,8 @@
+from pathlib import Path
+from shutil import copy
+
 from caleb.app import Application
 from caleb.file_handler import AuxHandler
-from shutil import copy
-from pathlib import Path
 
 tex_dir = Path("tests/tex_files")
 control_bib_dir = tex_dir / "control_bibs"

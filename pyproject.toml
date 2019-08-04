@@ -18,6 +18,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.7"
 crossref-commons = "^0.0.5"
+requests = "^2.22"
 
 [tool.poetry.dev-dependencies]
 python-coveralls = "^2.9"

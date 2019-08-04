@@ -11,7 +11,7 @@ class Application:
             logging.disable(logging.CRITICAL)
         elif verbose_level == 1:
             logging.basicConfig(level=logging.WARNING)
-        elif verbose_level == 2:
+        elif verbose_level >= 2:
             logging.basicConfig(level=logging.INFO)
 
         # Normalize name by removing .tex and .aux, if necessary.

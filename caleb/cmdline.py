@@ -15,7 +15,7 @@ def make_parser():
         action="store_true",
     )
     parser.add_argument(
-        "-v", "--verbose", help="Increase verbosity of output", action="store_true"
+        "-v", "--verbose", help="Increase verbosity of output", action="count"
     )
     parser.add_argument("--version", help="Outputs the version", action="store_true")
     parser.add_argument(

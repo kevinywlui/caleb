@@ -2,6 +2,7 @@
 crossref api but it'll be good to add more sources in the future.
 """
 
+import requests
 from crossref_commons.iteration import iterate_publications_as_json
 from crossref_commons.retrieval import get_publication_as_refstring
 
@@ -23,20 +24,59 @@ class Reference:
         # replace underscore by space
         spaced_key = key.replace("_", " ")
 
-        pieces = spaced_key.split(":")
-        self.queries = dict(
-            zip(["query.author", "query.title", "query.bibliographic"], pieces)
-        )
-        self.queries["sort"] = "relevance"
+        # data for query
+        self.pieces = spaced_key.split(":")
 
-    def _get_bibtex(self):
+    def _get_bibtex(self, method="crossref"):
+        if method == "crossref":
+            return self._get_bibtex_crossref()
+        elif method == "ams":
+            return self._get_bibtex_ams()
+
+    def _get_bibtex_ams(self):
+        """Fetch the bibtex entry from amsmrlookup.
+        """
+        self.payload = dict(zip(["au", "ti", "year"], self.pieces))
+        self.payload["format"] = "bibtex"
+        r = requests.get("https://mathscinet.ams.org/mrlookup", params=self.payload)
+        output = r.text
+
+        # set existence and uniqueness
+        num_results = output.count("<pre>")
+        if num_results == 0:
+            self._exists = False
+        elif num_results == 1:
+            self._exists = True
+            self._is_unique = True
+        else:
+            self._exists = True
+            self._is_unique = False
+
+        # This is *almost* correct. We just have to fix the key.
+        bib_entry = output.split("<pre>")[1].split("</pre>")[0].strip("\n")
+
+        # Here we assume the first line is always
+        # @something {OLD_CITATION,\n
+        # Replace OLD_CITATION with citation
+        # Use { and ,\n to find and replace
+        a, b = bib_entry.split("{", 1)
+        bib_entry = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
+
+        return bib_entry
+
+    def _get_bibtex_crossref(self):
         """Internal function to fetch the bibtex entry and determine existence
         and uniqueness.
 
         Note:
             Results are cached.
         """
-        iter_pub = iterate_publications_as_json(queries=self.queries)
+        queries = dict(
+            zip(["query.author", "query.title", "query.bibliographic"], self.pieces)
+        )
+        queries["sort"] = "relevance"
+
+        iter_pub = iterate_publications_as_json(queries=queries)
         try:
             doi = next(iter_pub)["DOI"]
             self._exists = True

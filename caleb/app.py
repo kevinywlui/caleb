@@ -18,8 +18,6 @@ class Application:
         filename, file_extension = os.path.splitext(input_name)
         if file_extension in [".tex", ".aux"]:
             input_name = filename
-        else:
-            input_name = input_name
 
         # Set filenames
         aux_file = input_name + ".aux"

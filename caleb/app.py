@@ -38,7 +38,7 @@ class Application:
 
         for cit in missing_cits:
             logging.info("Working on: {}".format(cit))
-            new_bib = Reference(cit)
+            new_bib = Reference(cit, method=method)
             if not new_bib.exists():
                 logging.warning("No results found for: {}".format(cit))
                 continue

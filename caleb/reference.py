@@ -1,5 +1,5 @@
-"""This module is used obtaining citations from references. We mainly use the
-crossref api but it'll be good to add more sources in the future.
+"""This module is used obtaining citations from references. Currently, this
+module can use both the crossref api and can scrape the AMS page.
 """
 
 import requests
@@ -18,7 +18,7 @@ class Reference:
 
     """
 
-    def __init__(self, key):
+    def __init__(self, key, method="crossref"):
         self.key = key
 
         # replace underscore by space
@@ -27,11 +27,15 @@ class Reference:
         # data for query
         self.pieces = spaced_key.split(":")
 
-    def _get_bibtex(self, method="ams"):
-        if method == "crossref":
+        self.method = method
+
+    def _get_bibtex(self):
+        if self.method == "crossref":
             return self._get_bibtex_crossref()
-        elif method == "ams":
+        elif self.method == "ams":
             return self._get_bibtex_ams()
+        else:
+            raise NotImplementedError()
 
     def _get_bibtex_ams(self):
         """Fetch the bibtex entry from amsmrlookup.

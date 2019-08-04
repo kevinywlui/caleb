@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "caleb"
-version = "0.6.0"
+version = "0.6.1"
 description = "A tool to automatically retrieve bibtex entries"
 authors = ["kevin lui <kevinywlui@gmail.com>"]
 license = "MIT"

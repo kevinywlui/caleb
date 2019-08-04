@@ -22,7 +22,7 @@ latexmk -pdf -pdflatex='pdflatex %O %S; caleb %B' an_example
   file, include the following line (see examples directory for an example):
 ```
 $pdflatex='pdflatex %O %S; caleb %B'
-``` 
+```
 
 * The barebone approach is to run `caleb` before running bibtex.
 ```
@@ -52,7 +52,7 @@ caleb --take-first an_example
 ### Testing and Development Dependencies
 
 * [python-coveralls](https://github.com/z4r/python-coveralls)
-* [pytest](https://pytest.org/en/latest/) 
+* [pytest](https://pytest.org/en/latest/)
 * [pytest-cov](https://github.com/pytest-dev/pytest-cov)
 * [flake8](http://flake8.pycqa.org/en/latest/)
 

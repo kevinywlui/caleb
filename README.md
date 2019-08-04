@@ -63,7 +63,7 @@ pdflatex an_example
 
 ### cocalc
 
-<cocalc.com> contains a collaborative latex editor that allows you to use a
+<http://cocalc.com> contains a collaborative latex editor that allows you to use a
 custom build command. We can use `caleb` by changing it to
 ```
 latexmk -pdf -pdflatex='pdflatex %O %S; caleb -t -m ams %B' -f -g -bibtex -synctex=1 -interaction=nonstopmode an_example.tex

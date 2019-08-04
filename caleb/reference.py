@@ -27,7 +27,7 @@ class Reference:
         # data for query
         self.pieces = spaced_key.split(":")
 
-    def _get_bibtex(self, method="crossref"):
+    def _get_bibtex(self, method="ams"):
         if method == "crossref":
             return self._get_bibtex_crossref()
         elif method == "ams":
@@ -53,16 +53,16 @@ class Reference:
             self._is_unique = False
 
         # This is *almost* correct. We just have to fix the key.
-        bib_entry = output.split("<pre>")[1].split("</pre>")[0].strip("\n")
+        bibtex = output.split("<pre>")[1].split("</pre>")[0].strip("\n")
 
         # Here we assume the first line is always
         # @something {OLD_CITATION,\n
         # Replace OLD_CITATION with citation
         # Use { and ,\n to find and replace
-        a, b = bib_entry.split("{", 1)
-        bib_entry = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
+        a, b = bibtex.split("{", 1)
+        self._bibtex = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
 
-        return bib_entry
+        return self._bibtex
 
     def _get_bibtex_crossref(self):
         """Internal function to fetch the bibtex entry and determine existence

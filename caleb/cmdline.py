@@ -18,6 +18,13 @@ def make_parser():
         "-v", "--verbose", help="Increase verbosity of output", action="store_true"
     )
     parser.add_argument("--version", help="Outputs the version", action="store_true")
+    parser.add_argument(
+        "-m",
+        "--method",
+        help="Specify a method for retrieving citations",
+        choices=["crossref", "ams"],
+        default="crossref",
+    )
     return parser
 
 
@@ -34,4 +41,4 @@ def launch():
         sys.exit(1)
 
     app = Application(args.input_name, args.verbose)
-    app.go(take_first=args.take_first)
+    app.go(take_first=args.take_first, method=args.method)

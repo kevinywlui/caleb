@@ -6,14 +6,7 @@ from .reference import Reference
 
 
 class Application:
-    def __init__(self, input_name, verbose_level):
-        if verbose_level == 0:
-            logging.disable(logging.CRITICAL)
-        elif verbose_level == 1:
-            logging.basicConfig(level=logging.WARNING)
-        elif verbose_level >= 2:
-            logging.basicConfig(level=logging.INFO)
-
+    def __init__(self, input_name):
         # Normalize name by removing .tex and .aux, if necessary.
         filename, file_extension = os.path.splitext(input_name)
         if file_extension in [".tex", ".aux"]:

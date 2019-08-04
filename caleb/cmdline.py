@@ -1,4 +1,5 @@
 import argparse
+import logging
 import sys
 
 from .__version__ import __version__
@@ -40,5 +41,12 @@ def launch():
         print("Need input name")
         sys.exit(1)
 
-    app = Application(args.input_name, args.verbose)
+    if args.verbose == 0:
+        logging.disable(logging.CRITICAL)
+    elif args.verbose == 1:
+        logging.basicConfig(level=logging.WARNING)
+    elif args.verbose >= 2:
+        logging.basicConfig(level=logging.INFO)
+
+    app = Application(args.input_name)
     app.go(take_first=args.take_first, method=args.method)

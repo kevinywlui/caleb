@@ -94,6 +94,7 @@ optional arguments:
 ### Dependencies
 
 * [crossref_commons_py](https://gitlab.com/crossref/crossref_commons_py)
+* [requests](https://3.python-requests.org/)
 * `python3`
 
 ### Testing and Development Dependencies
@@ -101,7 +102,13 @@ optional arguments:
 * [python-coveralls](https://github.com/z4r/python-coveralls)
 * [pytest](https://pytest.org/en/latest/)
 * [pytest-cov](https://github.com/pytest-dev/pytest-cov)
-* [flake8](http://flake8.pycqa.org/en/latest/)
+* [black](https://github.com/psf/black)
+
+### `pip`
+
+```
+pip3 install caleb --user
+```
 
 ### `setup.py`
 
@@ -109,11 +116,6 @@ optional arguments:
 python setup.py install --user
 ```
 
-### `pip`
-
-```
-pip3 install caleb --user
-```
 
 ## Goal of project
 

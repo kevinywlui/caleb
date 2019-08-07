@@ -15,6 +15,13 @@ repos:
             entry: black
             types: [python]
 
+          - id: isort
+            name: isort
+            stages: [commit]
+            language: system
+            entry: isort
+            types: [python]
+
           - id: mypy
             name: mypy
             stages: [commit]

@@ -32,4 +32,4 @@ def test_when_not_exists_and_not_is_unique():
     assert not ref.exists()
     with pytest.raises(ValueError):
         ref.is_unique()
-    assert ref.bibtex() == ''
+    assert ref.bibtex() == ""

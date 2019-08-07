@@ -2,7 +2,7 @@
 .PHONY: tests lint
 
 tests:
-	mypy caleb
+	poetry run mypy --ignore-missing-imports caleb
 	poetry run pytest --cov=caleb tests
 
 lint:

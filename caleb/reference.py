@@ -4,8 +4,8 @@ more sources will be available.
 """
 
 import requests
-from crossref_commons.iteration import iterate_publications_as_json  # type: ignore
-from crossref_commons.retrieval import get_publication_as_refstring  # type: ignore
+from crossref_commons.iteration import iterate_publications_as_json
+from crossref_commons.retrieval import get_publication_as_refstring
 
 
 class Reference:

@@ -6,7 +6,7 @@ from .__version__ import __version__
 from .app import Application
 
 
-def make_parser():
+def make_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("input_name", nargs="?")
     parser.add_argument(
@@ -29,7 +29,7 @@ def make_parser():
     return parser
 
 
-def launch():
+def launch() -> None:
     parser = make_parser()
     args = parser.parse_args(sys.argv[1:])
 

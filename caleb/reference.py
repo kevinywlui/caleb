@@ -4,8 +4,8 @@ more sources will be available.
 """
 
 import requests
-from crossref_commons.iteration import iterate_publications_as_json
-from crossref_commons.retrieval import get_publication_as_refstring
+from crossref_commons.iteration import iterate_publications_as_json  # type: ignore
+from crossref_commons.retrieval import get_publication_as_refstring  # type: ignore
 
 
 class Reference:
@@ -17,7 +17,7 @@ class Reference:
         `author:title`. Underscores are replaced with a space.
     """
 
-    def __init__(self, key, method="crossref"):
+    def __init__(self, key: str, method: str = "crossref") -> None:
         self.key = key
 
         # replace underscore by space
@@ -28,20 +28,20 @@ class Reference:
 
         self.method = method
 
-    def _get_bibtex(self):
+    def _get_bibtex(self) -> None:
         """Calls the correct version of _get_bibtex_XXX given self.method
 
         Returns:
             str: A bibtex entry.
         """
         if self.method == "crossref":
-            return self._get_bibtex_crossref()
+            self._get_bibtex_crossref()
         elif self.method == "ams":
-            return self._get_bibtex_ams()
+            self._get_bibtex_ams()
         else:
             raise NotImplementedError()
 
-    def _get_bibtex_ams(self):
+    def _get_bibtex_ams(self) -> None:
         """Fetch the bibtex entry from amsmrlookup.
 
         Note:
@@ -75,10 +75,10 @@ class Reference:
         # Use { and ,\n to find and replace
         a, b = bibtex.split("{", 1)
         self._bibtex = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
+        return
 
-        return self._bibtex
 
-    def _get_bibtex_crossref(self):
+    def _get_bibtex_crossref(self) -> None:
         """Internal function to fetch the bibtex entry and determine existence
         and uniqueness.
 
@@ -108,7 +108,7 @@ class Reference:
 
         # This is almost correct! We just need to change the citation key to
         # self.key
-        raw_bibtex = get_publication_as_refstring(doi, "bibtex")
+        raw_bibtex: str = get_publication_as_refstring(doi, "bibtex")
 
         # Here we assume the first line is always
         # @something {OLD_CITATION,
@@ -122,8 +122,9 @@ class Reference:
             self._bibtex = self._bibtex[1:]
         return
 
-    def bibtex(self):
-        """Return the first bibtex entry found given the citation.
+    def bibtex(self) -> str:
+        """Return the first bibtex entry found given the citation. Return the
+        empty string if no bibtex entry exists.
 
         Note:
             This calls _get_bibtex if it has not been ran already.
@@ -132,10 +133,10 @@ class Reference:
             str: bibtex entry
         """
         if not self.exists():
-            return None
+            return ''
         return self._bibtex
 
-    def exists(self):
+    def exists(self) -> bool:
         """Return whether a citation for this reference exists.
 
         Note:
@@ -150,7 +151,7 @@ class Reference:
             self._get_bibtex()
         return self._exists
 
-    def is_unique(self):
+    def is_unique(self) -> bool:
         """Return whether a citation for this reference is unique.
 
         Note:

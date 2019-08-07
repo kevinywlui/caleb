@@ -15,7 +15,8 @@ class Application:
     Args:
         input_name (str): Path to tex file whose bib entries we need to add.
     """
-    def __init__(self, input_name):
+
+    def __init__(self, input_name: str):
         # Normalize name by removing .tex and .aux, if necessary.
         filename, file_extension = os.path.splitext(input_name)
         if file_extension in [".tex", ".aux"]:
@@ -34,7 +35,7 @@ class Application:
         self.aux_file = aux_file
         self.bib_file = bib_file
 
-    def go(self, take_first=False, method="crossref"):
+    def go(self, take_first: bool = False, method: str = "crossref") -> None:
         """Fill in the bibtex entries.
 
         Args:

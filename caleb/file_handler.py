@@ -3,13 +3,13 @@
 This module is used to interface with .aux and .bib files. The goal is to
 eventually have it handle other formats.
 """
-
+from typing import Set
 
 class FileHandler:
     """Generic class for handling .aux and .bib files.
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename: str) -> None:
         self.filename = filename
 
 
@@ -17,7 +17,7 @@ class AuxHandler(FileHandler):
     """Class for handling .aux files.
     """
 
-    def citation_keys(self):
+    def citation_keys(self) -> Set[str]:
         """Extract citation keys from this .aux file.
 
         Returns:
@@ -32,7 +32,7 @@ class AuxHandler(FileHandler):
                         citation_keys.add(citation)
         return citation_keys
 
-    def bibdata(self):
+    def bibdata(self) -> str:
         """Extract the location of user-specified .bib file from the .aux
         file.
 
@@ -44,13 +44,14 @@ class AuxHandler(FileHandler):
                 if line.startswith("\\bibdata{"):
                     bibdata = line[9:-2]
                     return bibdata
+        assert False  # something went wrong
 
 
 class BibHandler(FileHandler):
     """Class for handling .bib files.
     """
 
-    def citation_keys(self):
+    def citation_keys(self) -> Set[str]:
         """Extract citation keys from this .bib file.
 
         Note:
@@ -69,7 +70,7 @@ class BibHandler(FileHandler):
             pass
         return all_entries
 
-    def append_a_citation(self, citation):
+    def append_a_citation(self, citation: str) -> None:
         """Append a citation to this .bib file."
 
         Args:

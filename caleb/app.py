@@ -6,6 +6,15 @@ from .reference import Reference
 
 
 class Application:
+    """Glues together all the functionality of this package.
+
+    This class is intended to be called by the `cmdline` module. Afterwards, it
+    uses the `reference` module to obtain the bibtex entries. Then it uses
+    `file_handler` to append the entries to .bib file. 
+
+    Args:
+        input_name (str): Path to tex file whose bib entries we need to add.
+    """
     def __init__(self, input_name):
         # Normalize name by removing .tex and .aux, if necessary.
         filename, file_extension = os.path.splitext(input_name)
@@ -26,7 +35,12 @@ class Application:
         self.bib_file = bib_file
 
     def go(self, take_first=False, method="crossref"):
+        """Fill in the bibtex entries.
 
+        Args:
+            take_first (bool): Whether to just take the first bibtex entry.
+            method (str): Determines whether we use `ams` or `crossref`.
+        """
         logging.info(f"Using {method} for citations")
 
         aux_h = AuxHandler(self.aux_file)

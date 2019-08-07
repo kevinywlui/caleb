@@ -1,14 +1,24 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.2.3
-    hooks:
-      - id: trailing-whitespace
-      - id: check-ast
-      - id: end-of-file-fixer
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.2.3
+      hooks:
+          - id: trailing-whitespace
+          - id: check-ast
+          - id: end-of-file-fixer
 
-    - id: black
-      name: black
-      stages: [commit]
-      language: system
-      entry: black
-      types: [python]
+    - repo: local
+      hooks:
+          - id: black
+            name: black
+            stages: [commit]
+            language: system
+            entry: black
+            types: [python]
+
+          - id: mypy
+            name: mypy
+            stages: [commit]
+            language: system
+            entry: mypy
+            types: [python]
+            pass_filenames: false

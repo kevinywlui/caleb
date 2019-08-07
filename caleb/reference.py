@@ -77,7 +77,6 @@ class Reference:
         self._bibtex = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
         return
 
-
     def _get_bibtex_crossref(self) -> None:
         """Internal function to fetch the bibtex entry and determine existence
         and uniqueness.
@@ -133,7 +132,7 @@ class Reference:
             str: bibtex entry
         """
         if not self.exists():
-            return ''
+            return ""
         return self._bibtex
 
     def exists(self) -> bool:

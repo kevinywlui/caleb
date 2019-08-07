@@ -5,6 +5,7 @@ eventually have it handle other formats.
 """
 from typing import Set
 
+
 class FileHandler:
     """Generic class for handling .aux and .bib files.
     """

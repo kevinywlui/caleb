@@ -27,7 +27,12 @@ def make_parser() -> argparse.ArgumentParser:
         choices=["crossref", "ams"],
         default="crossref",
     )
-    parser.add_argument("--get-this-key", action="store")
+    parser.add_argument(
+        "-g",
+        "--get-this-key",
+        help="Print the first entry with this key",
+        action="store",
+    )
     return parser
 
 

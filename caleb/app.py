@@ -32,8 +32,8 @@ class Application:
         dirname = os.path.dirname(aux_file)
         bib_file = os.path.join(dirname, bib_file_name)
 
-        logging.info("aux file: {}".format(aux_file))
-        logging.info("bib file: {}".format(bib_file))
+        logging.info(f"aux file: {aux_file}")
+        logging.info(f"bib file: {bib_file}")
         self.aux_file = aux_file
         self.bib_file = bib_file
 
@@ -60,15 +60,15 @@ class Application:
         logging.info(f"List of missing citations: {missing_cits}")
 
         for cit in missing_cits:
-            logging.info("Working on: {}".format(cit))
+            logging.info(f"Working on: {cit}")
             new_bib = Reference(cit, method=self.method)
             if not new_bib.exists():
-                logging.warning("No results found for: {}".format(cit))
+                logging.warning(f"No results found for: {cit}")
                 continue
             elif not new_bib.is_unique():
-                logging.warning("Multiple results found for: {}".format(cit))
+                logging.warning(f"Multiple results found for: {cit}")
                 if not self.take_first:
                     continue
             bibtex = new_bib.bibtex()
-            logging.info("Appending: \n{}".format(bibtex))
+            logging.info(f"Appending: \n{bibtex}")
             bib_h.append_a_citation(bibtex)

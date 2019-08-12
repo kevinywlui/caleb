@@ -26,6 +26,7 @@ def make_parser() -> argparse.ArgumentParser:
         choices=["crossref", "ams"],
         default="crossref",
     )
+    parser.add_argument("--get-one", action="store")
     return parser
 
 
@@ -48,5 +49,5 @@ def launch() -> None:
     elif args.verbose >= 2:
         logging.basicConfig(level=logging.INFO)
 
-    app = Application(args.input_name)
-    app.go(take_first=args.take_first, method=args.method)
+    app = Application(args.input_name, take_first=args.take_first, method=args.method)
+    app.go()

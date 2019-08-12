@@ -25,8 +25,8 @@ def test_clean_take_all(tmp_path):
     test_file = copy(test_file, tmp_path)
 
     # Run caleb
-    app = Application(str(test_file))
-    app.go(take_first=True)
+    app = Application(str(test_file), take_first=True)
+    app.go()
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
 
     control_bib = control_bib_dir / "take_all.bib"
@@ -46,8 +46,8 @@ def test_dirty_not_take_all(tmp_path):
     copy(partial_file, tmp_path)
 
     # Run caleb
-    app = Application(str(test_file))
-    app.go(take_first=False)
+    app = Application(str(test_file), take_first=False)
+    app.go()
     test_bib = (tmp_path / AuxHandler(str(test_file)).bibdata()).with_suffix(".bib")
 
     control_bib = control_bib_dir / "not_take_all.bib"

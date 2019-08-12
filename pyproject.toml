@@ -17,8 +17,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-crossref-commons = "^0.0.5"
 requests = "^2.22"
+crossref-commons = "^0.0.6"
 
 [tool.poetry.dev-dependencies]
 python-coveralls = "^2.9"
@@ -30,9 +30,8 @@ mypy = "^0.720.0"
 [tool.poetry.scripts]
 caleb = 'caleb.cmdline:launch'
 
+[tool.isort]
+skip = "setup.py"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
-
-[tool.isort]
-skip = "setup.py"

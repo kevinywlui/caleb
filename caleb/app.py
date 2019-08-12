@@ -59,16 +59,27 @@ class Application:
         missing_cits = requested_citation_keys.difference(existing_bibs)
         logging.info(f"List of missing citations: {missing_cits}")
 
-        for cit in missing_cits:
-            logging.info(f"Working on: {cit}")
-            new_bib = Reference(cit, method=self.method)
-            if not new_bib.exists():
-                logging.warning(f"No results found for: {cit}")
-                continue
-            elif not new_bib.is_unique():
-                logging.warning(f"Multiple results found for: {cit}")
-                if not self.take_first:
-                    continue
-            bibtex = new_bib.bibtex()
+        for key in missing_cits:
+            bibtex = self.get_single(key)
             logging.info(f"Appending: \n{bibtex}")
             bib_h.append_a_citation(bibtex)
+
+    def get_single(self, key: str) -> str:
+        """Retrieve a citation given the key.
+
+        Args:
+            key (str): the citation key
+
+        Returns:
+            str: a bibtex citation
+        """
+        logging.info(f"Working on: {key}")
+        new_bib = Reference(key, method=self.method)
+        if not new_bib.exists():
+            logging.warning(f"No results found for: {key}")
+            return ""
+        elif not new_bib.is_unique():
+            logging.warning(f"Multiple results found for: {key}")
+            if not self.take_first:
+                return ""
+        return new_bib.bibtex()

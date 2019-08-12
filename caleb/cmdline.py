@@ -4,6 +4,7 @@ import sys
 
 from .__version__ import __version__
 from .app import Application
+from .reference import Reference
 
 
 def make_parser() -> argparse.ArgumentParser:
@@ -26,7 +27,7 @@ def make_parser() -> argparse.ArgumentParser:
         choices=["crossref", "ams"],
         default="crossref",
     )
-    parser.add_argument("--get-one", action="store")
+    parser.add_argument("--get-this-key", action="store")
     return parser
 
 
@@ -37,6 +38,10 @@ def launch() -> None:
     # User is asking for version
     if args.version:
         print(__version__)
+        sys.exit(0)
+    elif args.get_this_key is not None:
+        ref = Reference(key=args.get_this_key, method=args.method)
+        print(ref.bibtex())
         sys.exit(0)
     elif args.input_name is None:
         print("Need input name")

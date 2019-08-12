@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Set
 
 from .file_handler import AuxHandler, BibHandler
 from .reference import Reference
@@ -50,7 +51,6 @@ class Application:
             take_first (bool): Whether to just take the first bibtex entry.
             method (str): Determines whether we use `ams` or `crossref`.
         """
-
         aux_h = AuxHandler(self.aux_file)
         bib_h = BibHandler(self.bib_file)
 
@@ -59,10 +59,23 @@ class Application:
         missing_cits = requested_citation_keys.difference(existing_bibs)
         logging.info(f"List of missing citations: {missing_cits}")
 
+        bib_h.append(self.get_all(missing_cits))
+
+    def get_all(self, missing_cits: Set[str]) -> str:
+        """Retrieve all citations given the keys.
+
+        Args:
+            missing_cits (list of str): a list of citation keys
+
+        Returns:
+            str: all bibtex entries as a single string
+        """
+        ans = ""
         for key in missing_cits:
             bibtex = self.get_single(key)
             logging.info(f"Appending: \n{bibtex}")
-            bib_h.append_a_citation(bibtex)
+            ans = ans + bibtex + "\n"
+        return ans
 
     def get_single(self, key: str) -> str:
         """Retrieve a citation given the key.

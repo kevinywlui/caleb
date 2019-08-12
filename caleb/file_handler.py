@@ -81,3 +81,12 @@ class BibHandler(FileHandler):
             f.write("\n")
             f.write(citation)
             f.write("\n")
+
+    def append(self, string: str) -> None:
+        """Append string to this .bib file.
+
+        Args:
+            string (str): the string to appended.
+        """
+        with open(self.filename, "a") as f:
+            f.write(string)

@@ -48,3 +48,9 @@ def test_when_not_exists_and_not_is_unique():
     with pytest.raises(ValueError):
         ref.is_unique()
     assert ref.bibtex() == ""
+
+
+def test_notimplemented_method():
+    ref = Reference("fermat:marvelous", method="magic")
+    with pytest.raises(NotImplementedError):
+        ref.bibtex()

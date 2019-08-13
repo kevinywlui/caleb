@@ -6,9 +6,7 @@ python:
     - "nightly"
 
 install:
-    - pip install poetry
-    - pip install crossref-commons
-    - poetry install
+    - pip install .
 
 script:
     - make tests

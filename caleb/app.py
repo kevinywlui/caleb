@@ -62,7 +62,7 @@ class Application:
         entries_to_append = self.get_all(missing_cits)
         if dry_run:
             print(entries_to_append)
-        
+
         bib_h.append(entries_to_append)
 
     def get_all(self, missing_cits: Set[str]) -> str:

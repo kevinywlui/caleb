@@ -71,17 +71,6 @@ class BibHandler(FileHandler):
             pass
         return all_entries
 
-    def append_a_citation(self, citation: str) -> None:
-        """Append a citation to this .bib file."
-
-        Args:
-            citation (str):  the citation to be appended.
-        """
-        with open(self.filename, "a") as f:
-            f.write("\n")
-            f.write(citation)
-            f.write("\n")
-
     def append(self, string: str) -> None:
         """Append string to this .bib file.
 

@@ -45,7 +45,7 @@ class AuxHandler(FileHandler):
                 if line.startswith("\\bibdata{"):
                     bibdata = line[9:-2]
                     return bibdata
-        assert False  # something went wrong
+        raise LookupError("bibdata entry not found")
 
 
 class BibHandler(FileHandler):

@@ -44,7 +44,7 @@ class Application:
         logging.info(f"Taking first citation found: {take_first}")
         self.take_first = take_first
 
-    def go(self, dry_run: bool) -> None:
+    def go(self, dry_run: bool = False) -> None:
         """Fill in the bibtex entries.
 
         Args:

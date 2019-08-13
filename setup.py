@@ -44,7 +44,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Text Processing :: Markup :: LaTeX",
     ],  # Optional
     keywords=" ".join(["latex", "python", "crossref"]),  # Optional

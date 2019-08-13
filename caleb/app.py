@@ -44,7 +44,7 @@ class Application:
         logging.info(f"Taking first citation found: {take_first}")
         self.take_first = take_first
 
-    def go(self) -> None:
+    def go(self, dry_run: bool) -> None:
         """Fill in the bibtex entries.
 
         Args:
@@ -59,7 +59,11 @@ class Application:
         missing_cits = requested_citation_keys.difference(existing_bibs)
         logging.info(f"List of missing citations: {missing_cits}")
 
-        bib_h.append(self.get_all(missing_cits))
+        entries_to_append = self.get_all(missing_cits)
+        if dry_run:
+            print(entries_to_append)
+        
+        bib_h.append(entries_to_append)
 
     def get_all(self, missing_cits: Set[str]) -> str:
         """Retrieve all citations given the keys.

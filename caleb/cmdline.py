@@ -33,6 +33,12 @@ def make_parser() -> argparse.ArgumentParser:
         help="Print the first entry with this key",
         action="store",
     )
+    parser.add_argument(
+        "-dr",
+        "--dry-run",
+        help="Write the changes to stdout instead of the bibtex",
+        action="store_true",
+    )
     return parser
 
 
@@ -60,4 +66,4 @@ def launch() -> None:
         logging.basicConfig(level=logging.INFO)
 
     app = Application(args.input_name, take_first=args.take_first, method=args.method)
-    app.go()
+    app.go(dry_run=args.dry_run)

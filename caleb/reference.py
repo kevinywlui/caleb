@@ -59,6 +59,7 @@ class Reference:
         num_results = output.count("<pre>")
         if num_results == 0:
             self._exists = False
+            return
         elif num_results == 1:
             self._exists = True
             self._is_unique = True

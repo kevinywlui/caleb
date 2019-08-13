@@ -9,7 +9,7 @@ from .consts import mazur_eisenstein_citation
 
 
 def test_when_exists_and_is_unique():
-    ref = Reference("mazur:eisenstein")
+    ref = Reference("mazur:eisenstein", method="ams")
     assert ref.exists()
     assert ref.is_unique()
     assert ref.bibtex() == mazur_eisenstein_citation

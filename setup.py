@@ -24,7 +24,7 @@ if os.path.exists(readme_path):
 setup(
     long_description=readme,
     name='caleb',
-    version='0.6.2',
+    version='0.7.0',
     description='A tool to automatically retrieve bibtex entries',
     python_requires='==3.*,>=3.6.0',
     project_urls={'homepage': 'https://github.com/kevinywlui/caleb'},

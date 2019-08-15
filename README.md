@@ -47,7 +47,7 @@ The following examples occur in the `examples` directory.
   will now parse `an_example.aux` to generate the appropriate bibliography
   file.
 ```
-caleb an_example
+$ caleb an_example
 ```
 
 * The first important commandline option is `--take-first`. When making a
@@ -55,14 +55,14 @@ caleb an_example
   will take no action here. However, if the `--take-first` flag is passed,
   `caleb` will take the first entry.
 ```
-caleb --take-first an_example
+$ caleb --take-first an_example
 ```
 
 * The next important commandline option is `--method`. By default, `caleb` uses
   `crossref.org`. However, we can also tell `caleb` to use
   <https://mathscinet.ams.org/mrlookup>.
 ```
-caleb --method ams
+$ caleb --method ams an_example
 ```
 
 ## Workflow integration
@@ -166,7 +166,8 @@ python setup.py install --user
 
 ## Goal of project
 
-* [ ] Reach feature parity with IRL [Caleb](https://sites.math.washington.edu/~geigerc/)
+* [ ] Reach feature parity with IRL
+  [Caleb](https://sites.math.washington.edu/~geigerc/) by version 2.13.1995.
 
 ## Homepage
 

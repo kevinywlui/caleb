@@ -13,4 +13,4 @@ aux_dirty_keys = {
 
 bib_dirty_keys = {"mazur:eisenstein"}
 
-mazur_eisenstein_citation = "@article{mazur:eisenstein, title={Modular curves and the eisenstein ideal}, volume={47}, ISSN={1618-1913}, url={http://dx.doi.org/10.1007/bf02684339}, DOI={10.1007/bf02684339}, number={1}, journal={Publications mathématiques de l’IHÉS}, publisher={Springer Science and Business Media LLC}, author={Mazur, B.}, year={1977}, month={Dec}, pages={33–186}}\n"
+mazur_eisenstein_citation = "@article {mazur:eisenstein,\n    AUTHOR = {Mazur, B.},\n     TITLE = {Modular curves and the {E}isenstein ideal},\n      NOTE = {With an appendix by Mazur and M. Rapoport},\n   JOURNAL = {Inst. Hautes \\'{E}tudes Sci. Publ. Math.},\n  FJOURNAL = {Institut des Hautes \\'{E}tudes Scientifiques. Publications\n              Math\\'{e}matiques},\n    NUMBER = {47},\n      YEAR = {1977},\n     PAGES = {33--186 (1978)},\n      ISSN = {0073-8301},\n   MRCLASS = {14G25 (10D05)},\n  MRNUMBER = {488287},\nMRREVIEWER = {M. Ohta},\n       URL = {http://www.numdam.org/item?id=PMIHES_1977__47__33_0},\n}"

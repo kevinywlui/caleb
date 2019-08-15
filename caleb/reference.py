@@ -1,5 +1,6 @@
 """This module is used obtaining citations from references. Currently, this
-module can use both the crossref api and can scrape the AMS page.
+module can use both the crossref api and can scrape the AMS page. Eventually,
+more sources will be available.
 """
 
 import requests
@@ -8,17 +9,15 @@ from crossref_commons.retrieval import get_publication_as_refstring
 
 
 class Reference:
-    """This class handles things you would want to do with a reference.
+    """Given a search key, this class will be able to retrieve data relating to
+    the corresponding bibtex entry.
 
     Note:
-        It is possible to initialize without the year.
-
-    Args:
-        key (str): A citation key assumed to be of the form author:title:year.
-
+        The key is assumed to be the form `author:title:year` or
+        `author:title`. Underscores are replaced with a space.
     """
 
-    def __init__(self, key, method="crossref"):
+    def __init__(self, key: str, method: str = "crossref") -> None:
         self.key = key
 
         # replace underscore by space
@@ -29,16 +28,27 @@ class Reference:
 
         self.method = method
 
-    def _get_bibtex(self):
+    def _get_bibtex(self) -> None:
+        """Calls the correct version of _get_bibtex_XXX given self.method
+
+        Returns:
+            str: A bibtex entry.
+        """
         if self.method == "crossref":
-            return self._get_bibtex_crossref()
+            self._get_bibtex_crossref()
         elif self.method == "ams":
-            return self._get_bibtex_ams()
+            self._get_bibtex_ams()
         else:
             raise NotImplementedError()
 
-    def _get_bibtex_ams(self):
+    def _get_bibtex_ams(self) -> None:
         """Fetch the bibtex entry from amsmrlookup.
+
+        Note:
+            Results are cached.
+
+        Returns:
+            str: A bibtex entry.
         """
         self.payload = dict(zip(["au", "ti", "year"], self.pieces))
         self.payload["format"] = "bibtex"
@@ -49,6 +59,7 @@ class Reference:
         num_results = output.count("<pre>")
         if num_results == 0:
             self._exists = False
+            return
         elif num_results == 1:
             self._exists = True
             self._is_unique = True
@@ -65,15 +76,17 @@ class Reference:
         # Use { and ,\n to find and replace
         a, b = bibtex.split("{", 1)
         self._bibtex = a + "{" + self.key + ",\n" + b.split(",\n", 1)[1]
+        return
 
-        return self._bibtex
-
-    def _get_bibtex_crossref(self):
+    def _get_bibtex_crossref(self) -> None:
         """Internal function to fetch the bibtex entry and determine existence
         and uniqueness.
 
         Note:
             Results are cached.
+
+        Returns:
+            str: A bibtex entry.
         """
         queries = dict(
             zip(["query.author", "query.title", "query.bibliographic"], self.pieces)
@@ -95,7 +108,7 @@ class Reference:
 
         # This is almost correct! We just need to change the citation key to
         # self.key
-        raw_bibtex = get_publication_as_refstring(doi, "bibtex")
+        raw_bibtex: str = get_publication_as_refstring(doi, "bibtex")
 
         # Here we assume the first line is always
         # @something {OLD_CITATION,
@@ -109,8 +122,9 @@ class Reference:
             self._bibtex = self._bibtex[1:]
         return
 
-    def bibtex(self):
-        """Return the first bibtex entry found given the citation.
+    def bibtex(self) -> str:
+        """Return the first bibtex entry found given the citation. Return the
+        empty string if no bibtex entry exists.
 
         Note:
             This calls _get_bibtex if it has not been ran already.
@@ -119,10 +133,10 @@ class Reference:
             str: bibtex entry
         """
         if not self.exists():
-            return None
+            return ""
         return self._bibtex
 
-    def exists(self):
+    def exists(self) -> bool:
         """Return whether a citation for this reference exists.
 
         Note:
@@ -137,12 +151,14 @@ class Reference:
             self._get_bibtex()
         return self._exists
 
-    def is_unique(self):
+    def is_unique(self) -> bool:
         """Return whether a citation for this reference is unique.
 
         Note:
             Since self.exists() calls self._get_bibtex(), we don't need to make
             sure to call self._get_bibtex()
+
+            Uniqueness only makes sense given existence.
 
         Returns:
             bool: True if citations is unique and False otherwise.
